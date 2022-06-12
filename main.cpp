@@ -4,7 +4,7 @@
 #include "AMatrixGraph.h"
 #include "PrioQueue.h"
 
-const unsigned nVertex = 5;
+const unsigned nVertex = 1000;
 
 // Struktura dla klastrow przy algorytmie Kruskala
 struct DSNode{
@@ -233,43 +233,40 @@ AdjacencyListGraph Prim(AdjacencyListGraph& original){
 }
 
 int main(){
-    AdjacencyListGraph test;
-    std::vector<Vertex*> vertexPtr;
-    std::vector<Edge*>   edgePtr;
     
-    vertexPtr.push_back(test.insertVertex(1));
-    vertexPtr.push_back(test.insertVertex(2));
-    vertexPtr.push_back(test.insertVertex(3));
-    vertexPtr.push_back(test.insertVertex(4));
-    vertexPtr.push_back(test.insertVertex(5));
-
-    edgePtr.push_back(test.insertEdge(vertexPtr[0],vertexPtr[1],5));
-    edgePtr.push_back(test.insertEdge(vertexPtr[0],vertexPtr[2],9));
-    edgePtr.push_back(test.insertEdge(vertexPtr[0],vertexPtr[3],2));
-    edgePtr.push_back(test.insertEdge(vertexPtr[0],vertexPtr[4],8));
-    edgePtr.push_back(test.insertEdge(vertexPtr[4],vertexPtr[2],14));
-    edgePtr.push_back(test.insertEdge(vertexPtr[3],vertexPtr[2],11));
-    edgePtr.push_back(test.insertEdge(vertexPtr[1],vertexPtr[4],3));
-
-
-    AdjacencyListGraph newtree(Prim(test));
-    List<Vertex>     vertexList(newtree.verticies());
-    List<Edge>       edgeList(newtree.edges());
-
-
-    std::cout << "Vertex: \n";
-    while(!vertexList.empty()){
-        std::cout << vertexList.front()->elem->value << std::endl;
-        std::cout << "Links:" << newtree.incidentEdges(vertexList.front()->elem).front()->elem->value << std::endl;
-        vertexList.removeElem(vertexList.front());
+    // AdjacencyListGraph test;
+    // std::vector<Vertex*> vertexPtr;
+    // std::vector<Edge*>   edgePtr;
+    // int n;
+    
+   
+    AMatrixGraph test;
+    std::vector<MVertex*> vertexPtr;
+    std::vector<MEdge*>   edgePtr;
+    int n;
+    
+    srand(time(NULL));
+    
+    //Wartosc przechowywana w wierzcholku nie ma znaczenia wiec moze byl po prostu kolejna liczba calkowita
+    for(int i = 0; i < nVertex;++i){
+        vertexPtr.push_back(test.insertVertex(i));
     }
-    
-    std::cout << "Edge: \n";
-    while(!edgeList.empty()){
-        std::cout << edgeList.front()->elem->value << std::endl;
-        edgeList.removeElem(edgeList.front());
+    // Zapewnienie spojnosci grafu
+    for(int i = 0; i <nVertex -1 ; i++){
+        edgePtr.push_back(test.insertEdge(vertexPtr[i],vertexPtr[i+1],std::rand()%100));
     }
-    
-    std::cout << "Hurray!\n";
+
+    n = nVertex * (nVertex-1) * 0.25 - (nVertex-1); // Tyle polaczen nalezy jeszcze stworzyc
+
+
+    for(;n != 0; n--){
+        edgePtr.push_back(test.insertEdge(vertexPtr[std::rand()%nVertex],vertexPtr[std::rand()%nVertex],std::rand()%100));
+    }
+
+    //AdjacencyListGraph newtree(Kruskal(test));
+    //AMatrixGraph newtree(Kruskal(test));
+    //AdjacencyListGraph newtree(Prim(test));
+    AMatrixGraph newtree(Prim(test));
+
     return 0;
 }

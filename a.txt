@@ -1,0 +1,25 @@
+AdjacencyListGraph test;
+    std::vector<Vertex*> vertexPtr;
+    std::vector<Edge*>   edgePtr;
+    int n;
+    
+    srand(time(NULL));
+    
+    //Wartosc przechowywana w wierzcholku nie ma znaczenia wiec moze byl po prostu kolejna liczba calkowita
+    for(int i = 0; i < nVertex;++i){
+        vertexPtr.push_back(test.insertVertex(i));
+    }
+    // Zapewnienie spojnosci grafu
+    for(int i = 0; i <nVertex -1 ; i++){
+        edgePtr.push_back(test.insertEdge(vertexPtr[i],vertexPtr[i+1],std::rand()%100));
+    }
+
+    n = nVertex * (nVertex-1) * 0.25 - (nVertex-1); // Tyle polaczen nalezy jeszcze stworzyc
+
+    std::cout << n << std::endl;
+
+    for(;n != 0; n--){
+        edgePtr.push_back(test.insertEdge(vertexPtr[std::rand()%nVertex],vertexPtr[std::rand()%nVertex],std::rand()%100));
+    }
+
+    AdjacencyListGraph newtree(Prim(test));

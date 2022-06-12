@@ -1,5 +1,4 @@
 # PAMSI-Project3
-Plik main.cpp bedzie modyfikowany do testow
 
 # SYSTEM
 Program napisany i testowany na systemie Ubuntu. Powinien dzialac
